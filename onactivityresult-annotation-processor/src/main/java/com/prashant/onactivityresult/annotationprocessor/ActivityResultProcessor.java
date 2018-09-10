@@ -29,6 +29,9 @@ import javax.tools.JavaFileObject;
 
 import static com.prashant.onactivityresult.annotation.OnActivityResult.GENERATED_FILE_NAME_SUFFIX;
 
+/**
+ * @author Prashant Singh
+ */
 @AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_7)
 @SupportedAnnotationTypes("com.prashant.onactivityresult.annotation.OnActivityResult")

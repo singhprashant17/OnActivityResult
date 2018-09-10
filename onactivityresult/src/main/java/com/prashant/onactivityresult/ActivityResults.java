@@ -7,6 +7,9 @@ import java.lang.reflect.Method;
 
 import static com.prashant.onactivityresult.annotation.OnActivityResult.GENERATED_FILE_NAME_SUFFIX;
 
+/**
+ * @author Prashant Singh
+ */
 public class ActivityResults {
     private static final String TAG = ActivityResults.class.getSimpleName();
 
