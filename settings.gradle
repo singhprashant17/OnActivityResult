@@ -1,0 +1,1 @@
+include ':app', ':onactivityresult-annotation', ':onactivityresult-annotation-processor', ':onactivityresult'
