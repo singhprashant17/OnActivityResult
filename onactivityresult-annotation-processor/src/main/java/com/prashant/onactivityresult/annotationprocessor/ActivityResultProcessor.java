@@ -95,6 +95,28 @@ public class ActivityResultProcessor extends AbstractProcessor {
         return false;
     }
 
+    private static String getGeneratedName(final int requestCode, final int resultCode) {
+        final StringBuilder methodName = new StringBuilder("requestCode_");
+        if (requestCode < 0) {
+            methodName.append("neg");
+        }
+        methodName.append(Math.abs((long) requestCode)).append("_resultCode_");
+        if (resultCode < 0) {
+            methodName.append("neg");
+        }
+        methodName.append(Math.abs((long) resultCode));
+        return methodName.toString();
+    }
+
+    private void error(Element method, String message) {
+        throw new IllegalStateException(method.getSimpleName() + " >>>>> " + message);
+    }
+
+    @SuppressWarnings("UseOfSystemOutOrSystemErr")
+    private void print(String message) {
+        System.out.println(message);
+    }
+
     private void generateClassFiles() {
         for (Map.Entry<Element, ArrayList<Element>> entry : classAndItsMethodsMap.entrySet()) {
             Element klass = entry.getKey();
@@ -144,28 +166,19 @@ public class ActivityResultProcessor extends AbstractProcessor {
                 List<String> generatedMethodNames = new ArrayList<>();
 
                 for (Element name : entry.getValue()) {
-                    StringBuilder methodName = new StringBuilder();
 
                     final OnActivityResult annotation = name.getAnnotation(OnActivityResult.class);
-                    methodName.append("requestCode_");
                     final int requestCode = annotation.requestCode();
-                    if (requestCode < 0) {
-                        methodName.append("neg");
-                    }
-                    methodName.append(Math.abs(requestCode));
-                    methodName.append("_resultCode_");
                     final int resultCode = annotation.resultCode();
-                    if (resultCode < 0) {
-                        methodName.append("neg");
-                    }
-                    methodName.append(Math.abs(resultCode));
 
-                    if (generatedMethodNames.contains(methodName.toString())) {
+                    final String methodName = getGeneratedName(requestCode, resultCode);
+
+                    if (generatedMethodNames.contains(methodName)) {
                         //error(name, "Duplicate method. OnActivityResult must be already applied to another method.");
                         continue;
                     }
 
-                    generatedMethodNames.add(methodName.toString());
+                    generatedMethodNames.add(methodName);
 
                     out.print("public void ");
                     out.print(methodName);
@@ -181,21 +194,12 @@ public class ActivityResultProcessor extends AbstractProcessor {
 
                 out.println("}");
             } catch (IOException e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             } finally {
                 if (out != null) {
                     out.close();
                 }
             }
         }
-    }
-
-    private void error(Element method, String message) {
-        throw new IllegalStateException(method.getSimpleName() + " >>>>> " + message);
-    }
-
-    @SuppressWarnings("UseOfSystemOutOrSystemErr")
-    private void print(String message) {
-        System.out.println(message);
     }
 }
