@@ -45,4 +45,45 @@ public class ActivityResults {
         methodName.append(Math.abs((long) resultCode));
         return methodName.toString();
     }
+
+    // TODO: 14/9/18 pure reflection method of calling the annotated method. remember me
+    /*public static void hook(Object object, int requestCode, int resultCode, Intent data) {
+        // get the class of current object
+        Class<?> klass = object.getClass();
+
+        // find all the methods declared in the class. Using Class.getDeclaredMethods() as is more efficient than
+        // Class.getMethods
+        final List<Method> allMethods = new ArrayList<>(Arrays.asList(klass.getDeclaredMethods()));
+
+        for (final Method method : allMethods) {
+            if (method.isAnnotationPresent(OnActivityResult.class)) {
+                // find our annotated methods
+                OnActivityResult annotation = method.getAnnotation(OnActivityResult.class);
+
+                Log.d(TAG, "Method name : " + method.getName());
+                Log.d(TAG, "expected requestCode:" + annotation.requestCode());
+                Log.d(TAG, "expected resultCode:" + annotation.resultCode());
+                Log.d(TAG, "actual requestCode:" + requestCode);
+                Log.d(TAG, "actual resultCode:" + resultCode);
+
+                // compare the actual and expected resultCode and requestCode
+                if (resultCode == annotation.resultCode() && requestCode == annotation.requestCode()) {
+                    // invoke the method
+                    try {
+                        method.invoke(object, data);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    // break the loop
+                    break;
+                } else {
+                    Log.d(TAG, "result and request code did not match. Checking other annotation method");
+                }
+            }
+
+            Log.d(TAG, "Looking for other candidate methods");
+        }
+    }*/
 }
