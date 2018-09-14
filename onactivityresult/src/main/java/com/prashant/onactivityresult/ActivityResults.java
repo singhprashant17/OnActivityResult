@@ -1,6 +1,7 @@
 package com.prashant.onactivityresult;
 
 import android.content.Intent;
+import android.util.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -24,6 +25,10 @@ public class ActivityResults {
             final Method declaredMethod = hookerObj.getClass().getDeclaredMethod(methodName, Intent.class);
             declaredMethod.invoke(hookerObj, data);
         } catch (Exception e) {
+            if (e instanceof NoSuchMethodException) {
+                Log.e(TAG, "Cannot find method annotated with @OnActivityResult(requestCode = "
+                        + requestCode + ", resultCode = " + resultCode + ")");
+            }
             e.printStackTrace();
         }
     }
