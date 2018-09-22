@@ -28,8 +28,9 @@ public class ActivityResults {
             if (e instanceof NoSuchMethodException) {
                 Log.e(TAG, "Cannot find method annotated with @OnActivityResult(requestCode = "
                         + requestCode + ", resultCode = " + resultCode + ")");
+            } else {
+                Log.e(TAG, "hook: ", e);
             }
-            Log.e(TAG, "hook: ", e);
         }
     }
 
