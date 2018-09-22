@@ -121,29 +121,24 @@ public class ActivityResultProcessor extends AbstractProcessor {
         for (Map.Entry<Element, ArrayList<Element>> entry : classAndItsMethodsMap.entrySet()) {
             Element klass = entry.getKey();
 
-            String packageName = null;
-            final String className = ((TypeElement) klass).getQualifiedName().toString();
-            int lastDot = className.lastIndexOf('.');
-            if (lastDot > 0) {
-                packageName = className.substring(0, lastDot);
-            }
+            final String className = processingEnv.getElementUtils().getBinaryName((TypeElement) klass).toString();
+            final String packageName = processingEnv.getElementUtils().getPackageOf(klass).getQualifiedName().toString();
 
             // writing the java source file
             PrintWriter out = null;
             try {
-                String builderClassName = className + GENERATED_FILE_NAME_SUFFIX;
-                JavaFileObject builderFile = processingEnv.getFiler().createSourceFile(builderClassName);
-                out = new PrintWriter(builderFile.openWriter());
+                String hookerClassName = className + GENERATED_FILE_NAME_SUFFIX;
+                JavaFileObject javaFileObject = processingEnv.getFiler().createSourceFile(hookerClassName);
+                out = new PrintWriter(javaFileObject.openWriter());
 
-                if (packageName != null) {
-                    out.print("package ");
-                    out.print(packageName);
-                    out.println(";");
-                    out.println();
-                }
+                out.print("package ");
+                out.print(packageName);
+                out.println(";");
+                out.println();
 
                 out.print("public class ");
-                String hookerSimpleClassName = builderClassName.substring(lastDot + 1);
+                int lastDot = className.lastIndexOf('.');
+                String hookerSimpleClassName = hookerClassName.substring(lastDot + 1);
                 out.print(hookerSimpleClassName);
                 out.println(" {");
                 out.println();
