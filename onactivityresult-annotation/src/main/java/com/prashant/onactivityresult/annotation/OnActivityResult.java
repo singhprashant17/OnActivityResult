@@ -11,7 +11,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface OnActivityResult {
-    String GENERATED_FILE_NAME_SUFFIX = "_Hooker";
 
     int requestCode();
 

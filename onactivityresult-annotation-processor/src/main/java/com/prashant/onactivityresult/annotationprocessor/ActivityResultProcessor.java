@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.FilerException;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -27,7 +28,8 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
-import static com.prashant.onactivityresult.annotation.OnActivityResult.GENERATED_FILE_NAME_SUFFIX;
+import static com.prashant.onactivityresult.annotation.Helpers.getGeneratedFileNameSuffix;
+import static com.prashant.onactivityresult.annotation.Helpers.getGeneratedMethodName;
 
 /**
  * @author Prashant Singh
@@ -95,19 +97,6 @@ public class ActivityResultProcessor extends AbstractProcessor {
         return false;
     }
 
-    private static String getGeneratedName(final int requestCode, final int resultCode) {
-        final StringBuilder methodName = new StringBuilder("requestCode_");
-        if (requestCode < 0) {
-            methodName.append("neg");
-        }
-        methodName.append(Math.abs((long) requestCode)).append("_resultCode_");
-        if (resultCode < 0) {
-            methodName.append("neg");
-        }
-        methodName.append(Math.abs((long) resultCode));
-        return methodName.toString();
-    }
-
     private void error(Element method, String message) {
         throw new IllegalStateException(method.getSimpleName() + " >>>>> " + message);
     }
@@ -127,7 +116,7 @@ public class ActivityResultProcessor extends AbstractProcessor {
             // writing the java source file
             PrintWriter out = null;
             try {
-                String hookerClassName = className + GENERATED_FILE_NAME_SUFFIX;
+                String hookerClassName = className + getGeneratedFileNameSuffix();
                 JavaFileObject javaFileObject = processingEnv.getFiler().createSourceFile(hookerClassName);
                 out = new PrintWriter(javaFileObject.openWriter());
 
@@ -166,7 +155,7 @@ public class ActivityResultProcessor extends AbstractProcessor {
                     final int requestCode = annotation.requestCode();
                     final int resultCode = annotation.resultCode();
 
-                    final String methodName = getGeneratedName(requestCode, resultCode);
+                    final String methodName = getGeneratedMethodName(requestCode, resultCode);
 
                     if (generatedMethodNames.contains(methodName)) {
                         //error(name, "Duplicate method. OnActivityResult must be already applied to another method.");
@@ -189,7 +178,9 @@ public class ActivityResultProcessor extends AbstractProcessor {
 
                 out.println("}");
             } catch (IOException e) {
-                e.printStackTrace();
+                if (!(e instanceof FilerException)) {
+                    e.printStackTrace();
+                }
             } finally {
                 if (out != null) {
                     out.close();
