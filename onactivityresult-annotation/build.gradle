@@ -1,37 +1,8 @@
 apply plugin: 'java-library'
 
-def latestVersion = '1.0.0'
-
-ext {
-    bintrayRepo = 'OnActivityResult'
-    bintrayName = 'OnActivityResult-Annotation'
-
-    publishedGroupId = 'com.prashant.onactivityresult.annotation'
-    libraryName = 'OnActivityResult-Annotation'
-    artifact = 'onactivityresult-annotation'
-
-    libraryDescription = ' '
-
-    siteUrl = 'https://github.com/singhprashant17/OnActivityResult'
-    gitUrl = 'https://github.com/singhprashant17/OnActivityResult.git'
-
-    libraryVersion = latestVersion
-
-    developerId = 'singhprashant17'
-    developerName = 'Prashant Singh'
-    developerEmail = 'singhprashantkumar@hotmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
-
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
