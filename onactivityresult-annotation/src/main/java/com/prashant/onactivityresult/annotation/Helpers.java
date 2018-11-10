@@ -1,5 +1,8 @@
 package com.prashant.onactivityresult.annotation;
 
+/**
+ * @author Prashant Singh
+ */
 public class Helpers {
     private static final String GENERATED_FILE_NAME_SUFFIX = "_Hooker";
 
