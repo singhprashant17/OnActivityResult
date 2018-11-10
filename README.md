@@ -48,8 +48,8 @@ allprojects {
 
 Add it to your app gradle file
 ```groovy
-implementation 'com.github.singhprashant17.OnActivityResult:onactivityresult:1.0.1'  
-annotationProcessor 'com.github.singhprashant17.OnActivityResult:onactivityresult-annotation-processor:1.0.1'
+implementation 'com.github.singhprashant17.OnActivityResult:onactivityresult:2.0.0'  
+annotationProcessor 'com.github.singhprashant17.OnActivityResult:onactivityresult-annotation-processor:2.0.0'
 ```
 
 <b>Rules</b>
@@ -58,7 +58,7 @@ annotationProcessor 'com.github.singhprashant17.OnActivityResult:onactivityresul
 - The annotated method must not be static
 - The annotated method must have exactly one parameter of type android.content.Intent
 
-**Inspiration**
+<b>Inspiration</b>
 **[OnActivityResult](https://github.com/vanniktech/OnActivityResult)**
 
 <b>License</b>
