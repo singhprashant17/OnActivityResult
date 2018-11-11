@@ -13,7 +13,7 @@ Your Activity or Fragment will have something like this
 @Override  
 protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {  
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == 101 && resultCode = 102) {
+    if (requestCode == 101 && resultCode == 102) {
         methodName(data);
     }
 }
