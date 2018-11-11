@@ -8,7 +8,22 @@ An Android library that solves OnActivityResult callbacks using annotation in th
 
 <b>Usage</b>
 
-In your Activity or Fragment 
+Your Activity or Fragment will have something like this 
+```java
+@Override  
+protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {  
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == 101 && resultCode = 102) {
+        methodName(data);
+    }
+}
+
+void methodName(Intent data) {
+    final String message = data.getStringExtra("message");
+    final int value = data.getIntExtra("value", 0);
+}
+```
+change the above to 
 ```java
 @Override  
 protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {  
@@ -16,10 +31,8 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
     // @here  
     ActivityResults.hook(this, requestCode, resultCode, data);  
 }
-```
 
-And annotate your target method like
-```java
+// And annotate your target method like
 @OnActivityResult(requestCode = 101, resultCode = 102)  
 void methodName(Intent data) { 
     // this method will automatically be called if the
@@ -31,6 +44,12 @@ void methodName(Intent data) {
     final int value = data.getIntExtra("value", 0);
 }
 ```
+
+<b>Rules</b>
+
+- The annotated method cannot be private or protected
+- The annotated method must not be static
+- The annotated method must have exactly one parameter of type android.content.Intent
 
 
 <b>Integration</b>
@@ -51,12 +70,6 @@ Add it to your app gradle file
 implementation 'com.github.singhprashant17.OnActivityResult:onactivityresult:2.0.0'  
 annotationProcessor 'com.github.singhprashant17.OnActivityResult:onactivityresult-annotation-processor:2.0.0'
 ```
-
-<b>Rules</b>
-
-- The annotated method cannot be private or protected
-- The annotated method must not be static
-- The annotated method must have exactly one parameter of type android.content.Intent
 
 <b>Inspiration</b>
 **[OnActivityResult](https://github.com/vanniktech/OnActivityResult)**
